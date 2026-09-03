@@ -103,6 +103,21 @@ export function AppProvider({ children }) {
     }));
   };
 
+  const actualizarCalendarioLocal = (eventoActualizado) => {
+  setDatosGlobales((prev) => ({
+    ...prev,
+    calendario: prev.calendario.map((evento) =>
+      Number(evento.id_calendario) === Number(eventoActualizado.id_calendario)
+        ? {
+            ...evento,
+            asistente_id: eventoActualizado.asistente_id,
+            asistentes: eventoActualizado.asistentes,
+          }
+        : evento
+    ),
+  }));
+};
+
   const editarEvento = async (datos) => {
     const response = await fetch(API_URL, {
       method: "POST",
@@ -110,7 +125,6 @@ export function AppProvider({ children }) {
     });
     const result = await response.json();
     if (!result.ok) throw new Error(result.error);
-    await refreshDatos(true);
     return result;
   };
 
@@ -195,6 +209,7 @@ export function AppProvider({ children }) {
         asistentesActivos,
         docentesActivos,
         refreshDatos,
+        actualizarCalendarioLocal,
         agregarTareaLocal,
         editarTareaLocal,
         eliminarTareaLocal,

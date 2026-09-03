@@ -34,7 +34,7 @@ export default function EditEvento({
   const [saving, setSaving] = useState(false);
   const [errores, setErrores] = useState({ tipo: false, fecha: false });
 
-  const { editarEvento, eliminarEvento, refreshDatos, usuarios, asistentesActivos } = useApp();
+  const { editarEvento, eliminarEvento, usuarios, asistentesActivos, actualizarCalendarioLocal } = useApp();
 
   const [form, setForm] = useState({
     id: "",
@@ -136,7 +136,22 @@ if (evento.fecha) {
     detalle_nota: form.detalle_nota
 });
 
-await refreshDatos(true);
+const asistentesActualizados = form.asistentes
+  .map((id) =>
+    asistentesActivos.find(
+      (a) => String(a.id_usuarios) === String(id)
+    )
+  )
+  .filter(Boolean)
+  .map((a) => a.nombre)
+  .join(", ");
+
+actualizarCalendarioLocal({
+  id_calendario: form.id,
+  asistente_id: form.asistentes.join(";"),
+  asistentes: asistentesActualizados
+});
+
 
 onSuccess();
 

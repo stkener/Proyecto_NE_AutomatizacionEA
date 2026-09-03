@@ -405,7 +405,7 @@ function CalendarioAsistentes() {
         tutorias={tutorias}
         onClose={() => setShowEditModal(false)}
         onSuccess={() => {
-          refreshDatos(true);
+          //refreshDatos(true);
           setShowEditModal(false);
         }}
       />
