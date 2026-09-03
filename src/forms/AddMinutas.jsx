@@ -7,7 +7,7 @@ import StarterKit from "@tiptap/starter-kit";
 function AddMinutaForm({ onClose, onSave }) {
   const [seleccionados, setSeleccionados] = useState([]);
   const [guardando, setGuardando] = useState(false);
-  const { usuarios } = useApp();
+  const { asistentesActivos } = useApp();
 
   const editor = useEditor({
     extensions: [StarterKit],
@@ -20,7 +20,7 @@ function AddMinutaForm({ onClose, onSave }) {
     );
   };
 
-  const asistentes = usuarios.filter((u) => u.rol === "asistente");
+  const asistentes = asistentesActivos;
 
   const handleSubmit = async (e) => {
     e.preventDefault();

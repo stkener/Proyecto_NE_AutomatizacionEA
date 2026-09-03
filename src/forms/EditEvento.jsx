@@ -26,7 +26,6 @@ const COLORES_PASTEL = {
 export default function EditEvento({
   open,
   evento,
-  asistentes,
   comisiones,
   tutorias,
   onClose,
@@ -35,7 +34,7 @@ export default function EditEvento({
   const [saving, setSaving] = useState(false);
   const [errores, setErrores] = useState({ tipo: false, fecha: false });
 
-  const { editarEvento, eliminarEvento, refreshDatos } = useApp();
+  const { editarEvento, eliminarEvento, refreshDatos, usuarios, asistentesActivos } = useApp();
 
   const [form, setForm] = useState({
     id: "",
@@ -213,6 +212,24 @@ onSuccess();
   const deshabilitado = "bg-slate-200 text-slate-400 cursor-not-allowed w-full border border-slate-200 rounded-xl p-2.5 text-xs text-slate-800 font-medium tracking-tight outline-none transition placeholder:text-slate-400 shadow-3xs"
                          // bg-slate-200 text-slate-400 cursor-not-allowed"
   const esEventoFijo =  form.tipo === "comision" || form.tipo === "tutoria";
+
+  const asistentesParaMostrar = [
+  ...asistentesActivos,
+  ...form.asistentes
+    .map((id) =>
+      usuarios.find(
+        (u) => String(u.id_usuarios) === String(id)
+      )
+    )
+    .filter(Boolean)
+    .filter(
+      (u) =>
+        !asistentesActivos.some(
+          (a) =>
+            String(a.id_usuarios) === String(u.id_usuarios)
+        )
+    )
+];
   
   return (
     <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex justify-center items-center p-4 z-50">
@@ -386,9 +403,7 @@ onSuccess();
               <Users className="w-3.5 h-3.5 text-slate-400" /> Gestionar Estudiantes Asistentes
             </label>
             <div className="flex flex-wrap gap-1.5 p-3.5 bg-white border border-slate-200 rounded-2xl max-h-40 overflow-y-auto shadow-3xs">
-              {asistentes
-                .filter((a) => a.activo === true || form.asistentes.includes(String(a.id_usuarios)))
-                .map((a) => {
+              {asistentesParaMostrar.map((a) => {
                   const seleccionado = form.asistentes.includes(String(a.id_usuarios));
                   const esInactivo = !a.activo; // O la propiedad correspondiente
 

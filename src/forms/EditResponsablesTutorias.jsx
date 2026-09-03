@@ -9,11 +9,9 @@ function EditResponsablesTutorias({
   onClose,
   onGuardar,
 }) {
-  const { usuarios } = useApp();
+  const { usuarios, asistentesActivos } = useApp();
 
-  const asistentes = usuarios.filter(
-    (u) => u.rol?.toLowerCase() === "asistente" && u.activo === true
-  );
+  const asistentes = asistentesActivos;
 
   const [guardando, setGuardando] = useState(false);
   const [seleccionados, setSeleccionados] = useState([]);
@@ -21,17 +19,12 @@ function EditResponsablesTutorias({
   useEffect(() => {
     if (!abierto) return;
 
-    const ids = usuarios
-      .filter(
-        (u) =>
-          u.rol?.toLowerCase() === "asistente" &&
-          u.activo === true &&
-          responsablesActuales.includes(u.nombre)
-      )
+    const ids = asistentesActivos
+      .filter((u) => responsablesActuales.includes(u.nombre))
       .map((u) => Number(u.id_usuarios));
 
     setSeleccionados(ids);
-  }, [abierto, responsablesActuales, usuarios]);
+  }, [abierto, responsablesActuales, asistentesActivos]);
 
   if (!abierto) return null;
 
@@ -47,7 +40,7 @@ function EditResponsablesTutorias({
     setGuardando(true);
 
     const seleccionadosActivos = seleccionados.filter((id) =>
-      usuarios.some((u) => Number(u.id_usuarios) === id && u.activo === true)
+      asistentesActivos.some((u) => Number(u.id_usuarios) === id)
     );
 
     await onGuardar(seleccionadosActivos);

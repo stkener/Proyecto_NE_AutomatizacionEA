@@ -19,7 +19,7 @@ export default function RegistroTutoria({
   onClose,
   onSuccess
 }) {
-  const { usuarios = [], API_URL } = useApp();
+  const { usuarios = [], asistentesActivos, API_URL } = useApp();
 
   const [saving, setSaving] = useState(false);
 
@@ -131,12 +131,7 @@ export default function RegistroTutoria({
   // SOLO ALUMNOS ASISTENTES
   // ============================================================
 
-  const asistentesDisponibles = usuarios.filter(
-    (usuario) =>
-      String(usuario.rol || "")
-        .trim()
-        .toLowerCase() === "asistente"
-  );
+  const asistentesDisponibles = asistentesActivos;
 
   // ============================================================
   // SELECCIONAR / DESELECCIONAR ASISTENTE

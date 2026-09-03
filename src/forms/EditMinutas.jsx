@@ -13,7 +13,7 @@ function EditMinuta({ minuta, onClose, onSave }) {
       : []
   );
   const [guardando, setGuardando] = useState(false);
-  const { usuarios } = useApp();
+  const { asistentesActivos } = useApp();
 
   const editor = useEditor({
     extensions: [StarterKit],
@@ -26,7 +26,7 @@ function EditMinuta({ minuta, onClose, onSave }) {
     );
   };
 
-  const asistentes = usuarios.filter((u) => u.rol === "asistente");
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -105,7 +105,7 @@ function EditMinuta({ minuta, onClose, onSave }) {
             </label>
             <div className="border border-slate-200/80 rounded-xl bg-slate-50/50 p-3">
               <div className="flex flex-wrap gap-1.5">
-                {asistentes.map((a) => {
+                {asistentesActivos.map((a) => {
                   const activo = seleccionados.includes(Number(a.id_usuarios));
                   return (
                     <button

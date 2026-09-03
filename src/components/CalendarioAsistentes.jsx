@@ -34,6 +34,7 @@ function CalendarioAsistentes() {
   const { 
     calendario, 
     usuarios, 
+    asistentesActivos,
     comisiones, 
     tutorias, 
     loading, 
@@ -392,7 +393,7 @@ function CalendarioAsistentes() {
         onSuccess={() => {
           refreshDatos(true);
         }}
-        asistentes= {usuarios.filter((u) => u.rol === "asistente" || u.rol === "Administrador")}
+        asistentes={asistentesActivos}
         comisiones={comisiones}
         tutorias={tutorias}
       />
@@ -400,7 +401,6 @@ function CalendarioAsistentes() {
       <EditEvento
         open={showEditModal}
         evento={eventoEditar}
-        asistentes= {usuarios.filter((u) => u.rol === "asistente" || u.rol === "Administrador")}
         comisiones={comisiones}
         tutorias={tutorias}
         onClose={() => setShowEditModal(false)}

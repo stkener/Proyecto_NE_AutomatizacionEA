@@ -26,13 +26,12 @@ export default function AddEvento({
   open,
   onClose,
   onSuccess,
-  asistentes,
   comisiones,
   tutorias
 }) {
   const [saving, setSaving] = useState(false);
   const [errores, setErrores] = useState({ tipo: false, fecha: false });
-  const { API_URL } = useApp();
+  const { API_URL, asistentesActivos } = useApp();
   
   const [form, setForm] = useState({
     fecha: "",
@@ -280,9 +279,7 @@ export default function AddEvento({
               <Users className="w-3.5 h-3.5 text-slate-400" /> Seleccionar Estudiantes Asistentes
             </label>
             <div className="flex flex-wrap gap-1.5 p-3.5 bg-white border border-slate-200 rounded-2xl max-h-40 overflow-y-auto shadow-3xs">
-              {asistentes
-                .filter((a) => a.activo === true)
-                .map((a) => {
+              {asistentesActivos.map((a) => {
                   const seleccionado = form.asistentes.includes(String(a.id_usuarios));
                   return (
                     <button

@@ -20,7 +20,16 @@ export function AppProvider({ children }) {
   const API_URL =
     "https://script.google.com/macros/s/AKfycbwJpkMBS-3n5GkyOlEd8aOJD4Y_0MF1Ip00weO_jaO17wNZB2Zh-peZv8Vwy5x_pKYd_A/exec";
 
-  // Carga de datos con soporte de paginación explícita
+   const asistentesActivos = datosGlobales.usuarios.filter((usuario) => {
+    const rol = String(usuario.rol || "").trim().toLowerCase();
+
+    return (
+      (rol === "asistente" || rol === "administrador") &&
+      usuario.activo === true
+    );
+  });
+  
+    // Carga de datos con soporte de paginación explícita
   const refreshDatos = async (silencioso = false) => {
     try {
       if (!silencioso) setLoading(true);
@@ -177,6 +186,7 @@ export function AppProvider({ children }) {
         ...datosGlobales,
         loading,
         API_URL,
+        asistentesActivos,
         refreshDatos,
         agregarTareaLocal,
         editarTareaLocal,

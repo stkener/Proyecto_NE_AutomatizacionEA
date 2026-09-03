@@ -9,6 +9,7 @@ import {
   Users,
   Archive,
 } from "lucide-react";
+import { useApp } from "../context/AppContext";
 
 function ModalTarea({
   isOpen,
@@ -16,29 +17,15 @@ function ModalTarea({
   onTareaCreada,
   onTareaEditada,
   onTareaElimitada,
-  API_URL,
-  asistentes = [],
+  API_URL,  
   tareaAEditar = null,
 }) {
+  const { asistentesActivos } = useApp();
+
   const [enviando, setEnviando] = useState(false);
   const [archivando, setArchivando] = useState(false);
   const [eliminando, setEliminando] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
-  const asistentesActivos = useMemo(() => {
-    return asistentes.filter((asistente) => {
-      if (asistente.activo === undefined && asistente.estado === undefined) {
-        return true;
-      }
-      const val = asistente.activo ?? asistente.estado;
-      return (
-        val === true ||
-        val === 1 ||
-        String(val).toLowerCase() === "true" ||
-        String(val).toLowerCase() === "activo"
-      );
-    });
-  }, [asistentes]);
 
   // Set de IDs activos para un filtrado rápido en el useEffect
   const idsActivosSet = useMemo(() => {
