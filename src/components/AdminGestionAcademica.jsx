@@ -30,6 +30,7 @@ export default function AdminGestionAcademica() {
     refreshDatos,
     eliminarTodosEventos,
     API_URL,
+    docentesActivos
   } = useApp();
 
   // Estado para alternar entre pestañas
@@ -400,6 +401,7 @@ export default function AdminGestionAcademica() {
           onSubmit={handleSubmit}
           onCancel={() => setModalAbierto(false)}
           guardando={guardando}
+          docentesActivos={docentesActivos}
         />
       ) : (
         <TutoriaFormModal

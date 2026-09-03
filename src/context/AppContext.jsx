@@ -28,6 +28,12 @@ export function AppProvider({ children }) {
       usuario.activo === true
     );
   });
+
+  const docentesActivos = datosGlobales.usuarios.filter((usuario) => {
+  const rol = String(usuario.rol || "").trim().toLowerCase();
+
+  return rol === "docente" && usuario.activo === true;
+});
   
     // Carga de datos con soporte de paginación explícita
   const refreshDatos = async (silencioso = false) => {
@@ -187,6 +193,7 @@ export function AppProvider({ children }) {
         loading,
         API_URL,
         asistentesActivos,
+        docentesActivos,
         refreshDatos,
         agregarTareaLocal,
         editarTareaLocal,
